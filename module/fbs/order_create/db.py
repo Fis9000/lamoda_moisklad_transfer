@@ -87,29 +87,3 @@ def update_ms_order_db(id_number: str, result: str):
 
     except Exception as e:
         logger.error(f"Ошибка записи результата Lamoda для заказа {id_number}: {e}")
-
-
-def get_last_created_at():
-    """Возвращает created_at последнего добавленного заказа."""
-    conn = create_connection()
-
-    try:
-        cursor = conn.cursor()
-
-        cursor.execute("""
-            SELECT created_at
-            FROM fbs_orders_to_ms
-            ORDER BY created_at DESC
-            LIMIT 1
-        """)
-
-        row = cursor.fetchone()
-
-        if row:
-            return row[0]
-
-        return None
-
-    finally:
-        cursor.close()
-        conn.close()
